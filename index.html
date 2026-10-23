@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>گزارش بازدید شهرداری خواف</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0f6b5c">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+:root{--bg:#eef1f0;--card:#fff;--ink:#16222e;--mut:#5d6b78;--line:#cdd6d9;--pri:#0f6b5c;--on:#fff;--warn:#b4491c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10171d;--card:#18222b;--ink:#e6edf1;--mut:#97a6b2;--line:#2c3a45;--pri:#3fb7a1;--on:#08201b;--warn:#f08a5d}}
+:root[data-theme="dark"]{--bg:#10171d;--card:#18222b;--ink:#e6edf1;--mut:#97a6b2;--line:#2c3a45;--pri:#3fb7a1;--on:#08201b;--warn:#f08a5d}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.7 Tahoma,"Segoe UI",Arial,sans-serif;min-height:100%}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border-bottom:1px solid var(--line);padding:8px 12px;display:flex;gap:8px;align-items:center}
+header h1{font-size:16px;margin:0;flex:1}
+main{max-width:720px;margin:0 auto;padding:12px 12px 90px}
+button,select,input,textarea{font:inherit;color:inherit}
+button{border:1px solid var(--line);background:var(--card);border-radius:8px;padding:8px 12px;min-height:40px}
+button.p{background:var(--pri);border-color:var(--pri);color:var(--on)}
+button.w{color:var(--warn);border-color:var(--warn)}
+label{display:block;margin:0 0 10px;font-size:13px;color:var(--mut)}
+label input,label select,label textarea{display:block;width:100%;margin-top:3px;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font-size:16px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row>*{flex:1}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px}
+.it{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.it b{display:block}.it small{color:var(--mut)}
+.tabs{display:flex;gap:4px;overflow-x:auto;padding-bottom:8px}
+.tabs button{flex:none;min-height:34px;padding:4px 10px;font-size:13px}
+.tabs button.on{background:var(--pri);color:var(--on);border-color:var(--pri)}
+.bar{height:5px;background:var(--line);border-radius:3px;margin:4px 0 12px}.bar i{display:block;height:100%;background:var(--pri);border-radius:3px}
+.foot{position:fixed;bottom:0;inset-inline:0;background:var(--card);border-top:1px solid var(--line);padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));display:flex;gap:8px}
+.foot>*{flex:1}
+.fl{border-top:1px dashed var(--line);padding-top:6px;margin-top:6px}
+.fl h4{margin:0 0 4px;font-size:14px}
+.fl .row label{margin:0}
+table{border-collapse:collapse;width:100%}
+.sc{overflow-x:auto}.sc td,.sc th{border:1px solid var(--line);padding:2px 6px;text-align:center}
+.msg{color:var(--warn);font-size:13px}
+img.sk{max-width:100%;border:1px solid var(--line);border-radius:8px}
+.pg{display:none}
+.show .pg{display:block;background:#fff;color:#000;border:1px solid var(--line);margin:0 auto 14px;padding:10mm;width:100%;max-width:210mm;font-size:11px;line-height:1.6;overflow-x:auto}
+.pg h2{text-align:center;margin:0 0 6px;font-size:16px}.pg h3{margin:8px 0 3px;font-size:12px;background:#e5e9ec;padding:2px 6px}
+.pg table td,.pg table th{border:1px solid #777;padding:2px 5px;text-align:right}.pg th{background:#f1f3f4;width:18%;font-weight:600}
+.pg .c td,.pg .c th{text-align:center;width:auto}
+@media print{@page{size:A4 portrait;margin:8mm}body{background:#fff}header,.foot,.ui,.tabs{display:none!important}main{padding:0;max-width:none}.show .pg{display:block;border:0;margin:0;padding:0;max-width:none;break-after:page}.show .pg:last-child{break-after:auto}}
+</style>
+</head>
+<body>
+<header><h1 id="ttl">گزارش بازدید ملک</h1><button id="hb" class="ui" style="display:none" data-a="home">فهرست</button></header>
+<main id="app"></main>
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)};
+var DL={reason:"بازدید عادی،درخواست مالک،تخلف ساختمانی،پایان‌کار،تغییر کاربری،سایر",pos:"بافت فرسوده،خیابان اصلی،خیابان فرعی،بن‌بست،گوشه‌ای،سایر",road:"آسفالته،خاکی،سنگفرش،در حال اجرا،سایر",shape:"مستطیلی،ذوزنقه‌ای،چندضلعی،نامنظم،دارای پخ",build:"زمین،در حال ساخت،نیمه‌تمام،تکمیل‌شده،بهره‌برداری",yn:"دارد،ندارد",use:"مسکونی،تجاری،اداری،مختلط،صنعتی،آموزشی،درمانی،زمین بایر،سایر",facade:"آجر،سنگ،سیمان،کامپوزیت،شیشه،بدون نما،سایر",fstate:"کامل،ناقص،در حال اجرا،فاقد نما",yard:"آسفالت،موزاییک،سنگ،بتن،خاکی،سایر",status:"جدید،در حال پیگیری،نیاز به بازدید مجدد،ارجاع به کمیسیون،بسته‌شده"};
+var LN={reason:"علت بازدید",pos:"نوع موقعیت",road:"وضعیت گذر",shape:"شکل زمین",build:"وضعیت ساخت",yn:"دارد / ندارد",use:"کاربری",facade:"نوع نما",fstate:"وضعیت نما",yard:"کف‌سازی حیاط",status:"وضعیت پیگیری"};
+var S=[
+["۱ - شناسنامه",["fileNo|شماره پرونده|t|1","date|تاریخ بازدید (۱۴۰۵/۰۷/۲۸)|d|1","page|شماره صفحه|t","owner|نام مالک / بهره‌بردار|t|1","plate|کد نوسازی / پلاک|t","addr|نشانی دقیق|t","visitor|بازدیدکننده|t|1","reason|علت بازدید|l:reason"]],
+["۲ - موقعیت",["pos|نوع موقعیت|l:pos","road|وضعیت گذر|l:road","sidewalk|پیاده‌رو|l:yn","elev|اختلاف ارتفاع ملک با معبر|l:yn","width|عرض گذر (متر)|n","shape|شکل زمین|l:shape","proj|پیش‌آمدگی (متر)|n","setback|عقب‌نشینی (متر)|n","floors|تعداد طبقات|n","build|وضعیت ساخت|l:build","use|کاربری|l:use","park|تعداد پارکینگ|n"]],
+["۳ - چهار جبهه",["nL|شمالاً: طول (متر)|n","nT|شمالاً: پیوست به|t","sL|جنوباً: طول (متر)|n","sT|جنوباً: پیوست به|t","eL|شرقاً: طول (متر)|n","eT|شرقاً: پیوست به|t","wL|غرباً: طول (متر)|n","wT|غرباً: پیوست به|t","area|مساحت عرصه (متر مربع)|n","diff|تفاوت با املاک مجاور|x"]],
+["۴ - نما و حیاط",["facade|نوع نما|l:facade","fstate|وضعیت نما|l:fstate","color|رنگ غالب|t","facDesc|شرح نمای ساختمان|x","yardY|حیاط خلوت|l:yn","yard|کف‌سازی حیاط|l:yard"]],
+["۷ - پیگیری",["status|وضعیت پیگیری|l:status","next|اقدام بعدی / یادداشت پیگیری|x","nextDate|تاریخ پیگیری بعدی|d"]]
+];
+var FL=["زیر زمین","همکف","نیم طبقه","طبقه اول","طبقه دوم","طبقه سوم","طبقه چهارم","طبقه پنجم"];
+var CT=["مسکونی","آسانسور","پارکینگ","راه‌پله","لابی"];
+var TABS=["۱","۲","۳","۴","بنا","کروکی","توضیحات","پیگیری"];
+var D=[],LS={},V=null,view="list",st=0,q="";
+var db;
+function idb(){return new Promise(function(r){try{var q=indexedDB.open("kv",1);q.onupgradeneeded=function(){q.result.createObjectStore("s")};q.onsuccess=function(){db=q.result;r()};q.onerror=function(){r()}}catch(e){r()}})}
+function ld(k,d){return new Promise(function(r){if(!db)return r(d);var g=db.transaction("s").objectStore("s").get(k);g.onsuccess=function(){r(g.result==null?d:g.result)};g.onerror=function(){r(d)}})}
+function sv(k,x){try{db.transaction("s","readwrite").objectStore("s").put(x,k)}catch(e){}}
+function gf(v){return v.fl||(v.fl=FL.map(function(n,i){return{id:i,n:n}}))}
+function gc(v){return v.ct||(v.ct=CT.map(function(n,i){return{id:i,n:n}}))}
+function nid(a){return a.reduce(function(m,x){return Math.max(m,x.id)},-1)+1}
+function L(n){return (LS[n]||DL[n]).split(/[،\n]/).map(function(s){return s.trim()}).filter(Boolean)}
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;")}
+function nd(s){return String(s).replace(/[۰-۹]/g,function(c){return c.charCodeAt(0)-1776}).replace(/[٠-٩]/g,function(c){return c.charCodeAt(0)-1632})}
+function num(x){var n=parseFloat(nd(x||"0"));return isNaN(n)?0:n}
+function today(){return new Intl.DateTimeFormat("fa-IR-u-ca-persian-nu-latn",{year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date()).replace(/-/g,"/")}
+function vn(v){var s=D.filter(function(x){return x.fileNo&&x.fileNo==v.fileNo}).sort(function(a,b){return a.created-b.created});return s.indexOf(v)+1}
+function prev(v){return D.filter(function(x){return x!==v&&v.fileNo&&x.fileNo==v.fileNo}).sort(function(a,b){return a.created-b.created})}
+function save(){sv("kv_d",D)}
+function fh(f){var p=f.split("|"),k=p[0],v=V[k]||"",t=p[2],i;
+if(t[0]=="l")i='<select data-k="'+k+'"><option></option>'+L(t.slice(2)).map(function(o){return"<option"+(o==v?" selected":"")+">"+esc(o)+"</option>"}).join("")+"</select>";
+else if(t=="x")i='<textarea rows="2" data-k="'+k+'">'+esc(v)+"</textarea>";
+else i='<input data-k="'+k+'" value="'+esc(v)+'"'+(t=="n"?' inputmode="decimal"':"")+">";
+return"<label>"+p[1]+(p[3]?" *":"")+i+(t=="d"?'<button type="button" data-a="today" data-k="'+k+'" style="margin-top:4px">تاریخ امروز</button>':"")+"</label>"}
+function req(v){var m=[];S[0][1].concat([]).forEach(function(f){var p=f.split("|");if(p[3]&&!v[p[0]])m.push(p[1].replace(/ \(.*/,""))});return m}
+function done(v){var n=0,t=0;S.forEach(function(s){s[1].forEach(function(f){t++;if(v[f.split("|")[0]])n++})});return[n,t]}
+function totals(){return bt(V)}
+function stepH(){
+if(st<4)return"<h3>"+S[st][0]+"</h3>"+S[st][1].map(fh).join("");
+if(st==4)return stepB();
+if(st==5)return stepK();
+if(st==6)return"<h3>۶ - توضیحات</h3>"+[1,2,3,4,5,6,7,8].map(function(i){return"<label>توضیح "+i+"<input data-k='n"+i+"' value='"+esc(V["n"+i])+"'></label>"}).join("");
+return"<h3>"+S[4][0]+"</h3>"+S[4][1].map(fh).join("")+(prev(V).length?"<div class='card'><b>بازدیدهای قبلی این پرونده</b>"+prev(V).map(function(x){return"<div><small>"+esc(x.date)+" - "+esc(x.visitor)+" - "+esc(x.status||"")+"</small></div>"}).join("")+"</div>":"")}
+function listH(){var r=D.filter(function(x){return!q||(x.fileNo+" "+x.owner+" "+x.plate).indexOf(q)>-1}).sort(function(a,b){return b.created-a.created});
+return"<div class='row'><button class='p' data-a='new'>بازدید جدید</button><button data-a='sets'>تنظیمات</button></div><label style='margin-top:10px'>جستجو (شماره پرونده، مالک، پلاک)<input id='q' value='"+esc(q)+"'></label>"+(r.length?r.map(function(x){return"<div class='card it'><div data-a='open' data-i='"+x.created+"' style='flex:1'><b>پرونده "+esc(x.fileNo||"بدون شماره")+" - بازدید "+vn(x)+"</b><small>"+esc(x.owner)+" | "+esc(x.date)+" | "+esc(x.status||"جدید")+"</small></div><button class='w' data-a='del' data-i='"+x.created+"'>حذف</button></div>"}).join(""):"<div class='card'>هنوز بازدیدی ثبت نشده. با «بازدید جدید» شروع کنید.</div>")+"<div class='row' style='margin-top:10px'><button data-a='regx'>اکسل دفتر سوابق</button><button data-a='json'>پشتیبان (JSON)</button><button data-a='imp'>بازیابی پشتیبان</button></div><input type='file' id='ji' accept='.json' style='display:none'>"}
+function formH(){var d=done(V);return"<div class='tabs ui'>"+TABS.map(function(t,i){return"<button data-a='step' data-i='"+i+"'"+(i==st?" class='on'":"")+">"+t+"</button>"}).join("")+"</div><div class='bar'><i style='width:"+Math.round(d[0]/d[1]*100)+"%'></i></div>"+stepH()+"<div class='foot ui'><button data-a='prev'"+(st?"":" disabled")+">قبلی</button>"+(st<7?"<button class='p' data-a='nxt'>بعدی</button>":"<button class='p' data-a='rep'>پیش‌نمایش گزارش</button>")+"</div>"}
+function kv(a){var h="<table>";for(var i=0;i<a.length;i+=2)h+="<tr><th>"+a[i][0]+"</th><td>"+esc(a[i][1])+"</td>"+(a[i+1]?"<th>"+a[i+1][0]+"</th><td>"+esc(a[i+1][1])+"</td>":"<td colspan=2></td>")+"</tr>";return h+"</table>"}
+function pairs(s){return S[s][1].map(function(f){var p=f.split("|");return[p[1].replace(/ \(.*/,""),V[p[0]]]})}
+function repH(){var v=V,h="<div class='pg'><h2>گزارش بازدید - شهرداری خواف</h2>"+kv([["شماره پرونده",v.fileNo],["تاریخ بازدید",v.date],["بازدید شماره",vn(v)],["شماره صفحه",v.page]]);
+[0,1,2,3].forEach(function(s,i){h+="<h3>"+S[s][0]+"</h3>"+kv(pairs(s))});
+h+="<h3>۵ - کروکی ملک</h3>"+(v.sketch?"<div style='text-align:center'><img src='"+v.sketch+"' style='max-width:100%;max-height:90mm'></div>":"<div style='height:40mm'></div>")+utmT(v)+"</div>";
+h+="<div class='pg'><h3>جدول بنای موجود</h3>"+bt(v)+"<h3>توضیحات</h3><table>"+[1,2,3,4,5,6,7,8].map(function(i){return"<tr><td>"+i+"- "+esc(v["n"+i])+"</td></tr>"}).join("")+"</table><h3>سوابق این پرونده</h3><table class='c'><tr><th>بازدید</th><th>تاریخ</th><th>بازدیدکننده</th><th>علت</th><th>وضعیت</th><th>اقدام</th></tr>"+prev(v).concat([v]).map(function(x,i){return"<tr><td>"+(i+1)+"</td><td>"+esc(x.date)+"</td><td>"+esc(x.visitor)+"</td><td>"+esc(x.reason)+"</td><td>"+esc(x.status)+"</td><td>"+esc(x.next)+"</td></tr>"}).join("")+"</table><p style='margin-top:20mm'>امضاء:</p></div>";return h}
+function stepB(){var f=gf(V),c=gc(V);return"<h3>۵ - جدول بنای موجود</h3><p style='color:var(--mut)'>مساحت (متر مربع) و تعداد واحد. نام طبقه‌ها و ستون‌ها را می‌توانید تغییر دهید یا اضافه و حذف کنید.</p>"+(V.ayan?"<div class='card'>مساحت اعیان در کروکی: <b>"+Math.round(V.ayan*100)/100+"</b> متر مربع</div>":"")+"<div class='fl'><h4>ستون‌ها</h4><div class='row'>"+c.map(function(x){return"<span style='display:flex;gap:4px'><input data-cn='"+x.id+"' value='"+esc(x.n)+"' style='min-width:0;padding:6px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)'><button class='w' data-a='delc' data-i='"+x.id+"'>×</button></span>"}).join("")+"<button data-a='addc'>+ ستون</button></div></div>"+f.map(function(r){return"<div class='fl'><div class='row'><input data-fn='"+r.id+"' value='"+esc(r.n)+"' style='font-weight:700;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)'><button class='w' data-a='delf' data-i='"+r.id+"'>حذف طبقه</button></div><div class='row'>"+c.map(function(x){var k="b"+r.id+"_"+x.id;return"<label>"+esc(x.n)+"<input inputmode='decimal' placeholder='مساحت' data-k='"+k+"a' value='"+esc(V[k+"a"])+"'><input inputmode='decimal' placeholder='واحد' data-k='"+k+"u' value='"+esc(V[k+"u"])+"'></label>"}).join("")+"</div></div>"}).join("")+"<div class='row' style='margin:10px 0'><button data-a='addf'>+ افزودن طبقه</button></div><div class='sc' id='tot'>"+totals()+"</div>"}
+function stepK(){return"<h3>۵ - کروکی ملک</h3><iframe id='mp' src='map.html' style='width:100%;height:80vh;border:1px solid var(--line);border-radius:8px;background:#fff'></iframe><div class='row' style='margin-top:8px'><button data-a='fillA'>ثبت مساحت عرصه کروکی در فرم</button></div><p style='color:var(--mut)'>کروکی خودکار ذخیره می‌شود. برای استفاده آفلاین، با اینترنت محل را پیدا کنید و «ذخیره نقشه آفلاین» را بزنید.</p>"}
+function utmT(v){if(!v.csv)return"";var r=v.csv.split(/\r?\n/).slice(1).filter(Boolean).map(function(l){return l.split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/).map(function(x){return x.replace(/^"|"$/g,"")})});if(!r.length)return"";return"<h3>مختصات UTM</h3><table class='c'><tr><th>نوع</th><th>نقطه</th><th>زون</th><th>X</th><th>Y</th></tr>"+r.map(function(c){return"<tr><td>"+(c[7]=="ayan"?"اعیان":"عرصه")+"</td><td>"+esc(c[8])+"</td><td>"+esc(c[9])+"</td><td>"+esc(c[10])+"</td><td>"+esc(c[11])+"</td></tr>"}).join("")+"</table>"}
+function bt(v){var f=gf(v),c=gc(v),a=c.map(function(){return 0}),u=a.slice(),ta=0,tu=0,h="<table class='c'><tr><th rowspan=2>طبقات</th>"+c.map(function(x){return"<th colspan=2>"+esc(x.n)+"</th>"}).join("")+"<th colspan=2>جمع</th></tr><tr>"+c.concat([0]).map(function(){return"<th>مساحت</th><th>واحد</th>"}).join("")+"</tr>";
+f.forEach(function(r){var ra=0,ru=0;h+="<tr><th>"+esc(r.n)+"</th>";c.forEach(function(x,j){var k="b"+r.id+"_"+x.id,p=num(v[k+"a"]),q2=num(v[k+"u"]);a[j]+=p;u[j]+=q2;ra+=p;ru+=q2;h+="<td>"+p+"</td><td>"+q2+"</td>"});h+="<td>"+ra+"</td><td>"+ru+"</td></tr>"});
+h+="<tr><th>جمع</th>"+c.map(function(x,j){ta+=a[j];tu+=u[j];return"<td>"+a[j]+"</td><td>"+u[j]+"</td>"}).join("")+"<td>"+ta+"</td><td>"+tu+"</td></tr></table>";return h}
+function setH(){return"<h3>ویرایش لیست‌ها</h3><p style='color:var(--mut)'>هر گزینه در یک خط.</p>"+Object.keys(DL).map(function(k){return"<label>"+LN[k]+"<textarea rows='3' data-ls='"+k+"'>"+esc(L(k).join("\n"))+"</textarea></label>"}).join("")+"<div class='row'><button class='p' data-a='savel'>ذخیره لیست‌ها</button><button data-a='home'>بازگشت</button></div>"}
+function R(){var a=$("#app");a.className=view=="rep"?"show":"";$("#hb").style.display=view=="list"?"none":"";
+a.innerHTML=view=="list"?listH():view=="form"?formH():view=="sets"?setH():"<div class='row ui' style='margin-bottom:10px'><button class='p' data-a='print'>PDF / چاپ</button><button data-a='xls'>اکسل</button><button data-a='edit'>ویرایش</button></div><p class='ui' style='color:var(--mut)'>برای PDF روی گوشی، در پنجره چاپ «ذخیره به‌صورت PDF» را بزنید.</p>"+repH()}
+function dl(name,txt,type){var b=new Blob([txt],{type:type}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1500)}
+function xhtml(b){return"<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:x='urn:schemas-microsoft-com:office:excel'><head><meta charset='utf-8'><style>td,th{border:1px solid #777;mso-number-format:'\\@'}</style></head><body dir='rtl'>"+b+"</body></html>"}
+function find(i){return D.filter(function(x){return String(x.created)==i})[0]}
+var A={
+home:function(){view="list";R()},
+addf:function(){var f=gf(V);f.push({id:nid(f),n:"طبقه جدید"});save();R()},
+addc:function(){var c=gc(V);c.push({id:nid(c),n:"ستون جدید"});save();R()},
+delf:function(e){if(confirm("این طبقه حذف شود؟")){V.fl=gf(V).filter(function(r){return String(r.id)!=e.i});Object.keys(V).forEach(function(k){if(k.indexOf("b"+e.i+"_")==0)delete V[k]});save();R()}},
+delc:function(e){if(confirm("این ستون حذف شود؟")){V.ct=gc(V).filter(function(r){return String(r.id)!=e.i});var re=new RegExp("^b\\d+_"+e.i+"[au]$");Object.keys(V).forEach(function(k){if(re.test(k))delete V[k]});save();R()}},
+fillA:function(){if(!V.arseh){alert("هنوز عرصه‌ای در کروکی ترسیم نشده است.");return}V.area=String(Math.round(V.arseh*100)/100);save();alert("مساحت عرصه ("+V.area+" متر مربع) در فرم ثبت شد.")},
+new:function(){V={created:Date.now(),status:"جدید"};D.push(V);st=0;view="form";R()},
+open:function(e){V=find(e.i);st=0;view="form";R()},
+del:function(e){if(confirm("این بازدید حذف شود؟")){D=D.filter(function(x){return String(x.created)!=e.i});save();R()}},
+step:function(e){st=+e.i;R()},nxt:function(){st++;R();scrollTo(0,0)},prev:function(){st--;R();scrollTo(0,0)},
+today:function(e){V[e.k]=today();save();R()},
+nosk:function(){delete V.sketch;save();R()},
+rep:function(){var m=req(V);if(m.length){alert("موارد الزامی خالی است: "+m.join("، "));st=0;R();return}view="rep";R();scrollTo(0,0)},
+edit:function(){view="form";R()},print:function(){window.print()},
+xls:function(){dl("گزارش "+V.fileNo+" "+V.date.replace(/\//g,"-")+".xls",xhtml(repH().replace(/<img[^>]*>/g,"")),"application/vnd.ms-excel")},
+regx:function(){var c=["fileNo","date","owner","plate","addr","visitor","reason","area","use","status","next","nextDate"],t="<table><tr><th>ردیف</th><th>بازدید</th>"+["شماره پرونده","تاریخ","مالک","پلاک","نشانی","بازدیدکننده","علت","مساحت","کاربری","وضعیت","اقدام بعدی","تاریخ پیگیری"].map(function(h){return"<th>"+h+"</th>"}).join("")+"</tr>";
+D.slice().sort(function(a,b){return a.created-b.created}).forEach(function(x,i){t+="<tr><td>"+(i+1)+"</td><td>"+vn(x)+"</td>"+c.map(function(k){return"<td>"+esc(x[k])+"</td>"}).join("")+"</tr>"});dl("دفتر سوابق.xls",xhtml(t+"</table>"),"application/vnd.ms-excel")},
+json:function(){dl("backup-"+Date.now()+".json",JSON.stringify({d:D,l:LS}),"application/json")},
+imp:function(){$("#ji").click()},
+sets:function(){view="sets";R()},
+savel:function(){document.querySelectorAll("[data-ls]").forEach(function(t){LS[t.dataset.ls]=t.value});sv("kv_l",LS);view="list";R()}
+};
+document.addEventListener("click",function(e){var t=e.target.closest("[data-a]");if(t&&A[t.dataset.a])A[t.dataset.a](t.dataset)});
+document.addEventListener("input",function(e){var t=e.target;
+if(t.id=="q"){q=nd(t.value);var p=t.selectionStart;R();var n=$("#q");n.focus();n.setSelectionRange(p,p);return}
+if(t.dataset.fn!=null&&V){gf(V).forEach(function(r){if(String(r.id)==t.dataset.fn)r.n=t.value});save();return}
+if(t.dataset.cn!=null&&V){gc(V).forEach(function(r){if(String(r.id)==t.dataset.cn)r.n=t.value});save();return}
+if(t.dataset.k&&V){var v=t.value;if(t.inputMode=="decimal"){v=nd(v);if(v!=t.value)t.value=v}V[t.dataset.k]=v;save();if(t.dataset.k[0]=="b"&&$("#tot"))$("#tot").innerHTML=totals();var b=document.querySelector(".bar i");if(b){var d=done(V);b.style.width=Math.round(d[0]/d[1]*100)+"%"}}});
+document.addEventListener("change",function(e){var t=e.target;
+if(t.id=="fi"&&t.files[0]){var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var s=Math.min(1,1000/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=im.width*s;c.height=im.height*s;c.getContext("2d").drawImage(im,0,0,c.width,c.height);V.sketch=c.toDataURL("image/jpeg",.75);save();R()};im.src=r.result};r.readAsDataURL(t.files[0])}
+if(t.id=="ji"&&t.files[0]){var f=new FileReader();f.onload=function(){try{var o=JSON.parse(f.result);if(o.d){D=o.d;LS=o.l||{};save();sv("kv_l",LS);R();alert("بازیابی شد: "+D.length+" بازدید")}}catch(x){alert("فایل پشتیبان معتبر نیست.")}};f.readAsText(t.files[0])}});
+window.addEventListener("message",function(e){var d=e.data,fr=$("#mp");if(!d||!V||!fr||e.source!==fr.contentWindow)return;
+if(d.t=="ready")fr.contentWindow.postMessage({t:"load",s:V.map||null},"*");
+if(d.t=="data"){V.map=d.s;V.arseh=d.arseh;V.ayan=d.ayan;V.csv=d.csv;var im=new Image();im.onload=function(){var s=Math.min(1,1000/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=im.width*s;c.height=im.height*s;c.getContext("2d").drawImage(im,0,0,c.width,c.height);V.sketch=c.toDataURL("image/jpeg",.8);save()};im.src=d.png;save()}});
+idb().then(function(){return ld("kv_d",[])}).then(function(d){D=d;return ld("kv_l",{})}).then(function(l){LS=l;R()});
+if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(function(){});
+})();
+</script>
+</body>
+</html>
